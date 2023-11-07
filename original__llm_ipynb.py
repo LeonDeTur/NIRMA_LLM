@@ -7,28 +7,12 @@ Original file is located at
     https://colab.research.google.com/drive/1-7bR0WfQ0NyFdNbmmWOoM2wDms6ytWKH
 """
 
-!pip install -Uqqq pip --progress-bar off
-!pip install -qqq torch==2.0.1 --progress-bar off
-!pip install -qqq transformers==4.33.2 --progress-bar off
-!pip install -qqq langchain==0.0.299 --progress-bar off
-!pip install -qqq chromadb==0.4.10 --progress-bar off
-!pip install -qqq xformers==0.0.21 --progress-bar off
-!pip install -qqq sentence_transformers==2.2.2 --progress-bar off
-!pip install -qqq tokenizers==0.14.0 --progress-bar off
-!pip install -qqq optimum==1.13.1 --progress-bar off
-!pip install -qqq auto-gptq==0.4.2 --extra-index-url https://huggingface.github.io/autogptq-index/whl/cu118/ --progress-bar off
-!pip install -qqq unstructured==0.10.16 --progress-bar off
 
 # hf_token = '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'
 # import os
 
 # os.environ['HUGGINGFACEHUB_API_TOKEN'] = hf_token
 
-
-
-!pip install chromadb -q
-!pip install langchain -q
-!pip install sentence_transformers -q
 
 import numpy as np
 import pandas as pd

@@ -7,14 +7,13 @@ Original file is located at
     https://colab.research.google.com/drive/1-7bR0WfQ0NyFdNbmmWOoM2wDms6ytWKH
 """
 
+import csv
 
 from langchain.document_loaders import DataFrameLoader
 import pandas as pd
 
 df = pd.read_csv('data/first_five_thousand.csv', sep=';', encoding='utf-8' )
-print('done')
 
-df.head(3)
 
 df = df.loc[:, 'Текст'].to_frame()
 
@@ -98,32 +97,34 @@ document_qa = RetrievalQA.from_chain_type(
     llm=llm, chain_type="stuff", retriever=retriever
 )
 
-response = document_qa.run("Инструкция: Предоставь информацию в формате одного предложения. " \
-                           "Ответь на следующий вопрос: "\
-                           "Что думают горожане о ситуации с уборкой снега зимой в Санкт-Петербурге?" )
-display(response)
+with open('requests.txt', 'r') as questions:
+    with open (r'q_a.csv', mode='a', encoding='utf-8-sig', errors='ignore') as res_file:
+        print('Processing...')
+        for row in questions:
 
-for doc in response.documents:
-    print(doc.text)
+            file_writer = csv.writer(res_file, delimiter=';')
+            response = document_qa.run(row)
+            file_writer.writerow([question, response])
+
 
 # ------------------------------------------------------------------------------------------------------------------------------
 
+'''
+    question = input('Ввести вопрос LLM: ')
 
+    print('Processing')
 
+    answer = llm(
+        question
+    )
+    
+    
+    print(answer)
+    print(type(answer))
+    file_writer.writerow([question, answer])
+'''    
 
-
-
-
-llm(
-    "Выдели адрес в следующем тексте: рядом с улицей Авиаторов Балтики 36 красивый парк и памятник и новый автомобиль соседа а на Гражданском нет ничего такого там Моисеев не живет"
-)
-
-llm(
-    "Выдели указанный адрес в следующем тексте в формате для тренировка BERT модели: рядом с улицей Авиаторов Балтики 36 красивый парк и памятник"
-)
-
-
-
+'''
 from langchain import PromptTemplate
 
 template = """
@@ -164,4 +165,5 @@ from langchain.chains import SimpleSequentialChain
 multi_chain = SimpleSequentialChain(chains=[chain, examples_chain], verbose=True)
 result = multi_chain.run(text)
 print(result.strip())
-
+'''
+print('Execution is finished')
